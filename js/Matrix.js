@@ -1,15 +1,8 @@
-export default class BinaryUtils {
+export default class Matrix {
 
-    constructor() {
+    constructor(screenSize = { rows: 8, cols: 8 }) {
+        this.screenSize = screenSize;
         this.matrix = [
-            // [0, 0, 0, 0, 0, 0, 0, 0],
-            // [0, 0, 0, 0, 0, 0, 0, 0],
-            // [0, 0, 0, 0, 0, 0, 0, 0],
-            // [0, 0, 0, 0, 0, 0, 0, 0],
-            // [0, 0, 0, 0, 0, 0, 0, 0],
-            // [0, 0, 0, 0, 0, 0, 0, 0],
-            // [0, 0, 0, 0, 0, 0, 0, 0],
-            // [0, 0, 0, 0, 0, 0, 0, 0],
 
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
@@ -21,17 +14,18 @@ export default class BinaryUtils {
             [0, 1, 1, 1, 1, 1, 1, 0],
         ];
 
+        console.log(this.screenSize)
         this.floors = [
-            [1, 1, 1, 1, 1, 0, 0, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0]
+            this.createBlock(0, 5),
+            this.createBlock(1, this.screenSize.cols - 2)
         ];
     }
 
     getMatch() {
 
-        const array = Array(8).fill(0);
+        const array = Array(this.screenSize.cols).fill(0);
 
-        for (let j = 0; j < 8; j++) {
+        for (let j = 0; j < this.screenSize.cols; j++) {
             if (this.floors[0][j] === 1 && this.floors[1][j] === 1) {
                 array[j] = 1;
             } else {
@@ -48,19 +42,19 @@ export default class BinaryUtils {
             throw new Error("Initial Position should be >= 0");
         }
 
-        if (initialPos >= 8) {
+        if (initialPos >= this.screenSize.cols) {
             throw new Error("Initial Position should be <= 7");
         }
 
-        if (size > 8) {
+        if (size > this.screenSize.cols) {
             throw new Error("Size should be <= 8");
         }
 
-        if (initialPos + size > 8) {
+        if (initialPos + size > this.screenSize.cols) {
             throw new Error("Initial Position + Size should be <= 8");
         }
 
-        const array = Array(8).fill(0);
+        const array = Array(this.screenSize.cols).fill(0);
 
         for (let i = initialPos; i < initialPos + size; i++) {
             array[i] = 1;
@@ -95,7 +89,9 @@ export default class BinaryUtils {
     }
 
     getValue(i, j) {
-        return this.matrix[i][j];
+        // console.log(i,j)
+        return this.floors[0][j];
+        // return this.matrix[i][j];
     }
 
     isTrue(i, j) {
@@ -104,28 +100,31 @@ export default class BinaryUtils {
 
     shiftOnceRight(i) {
 
-        if (this.matrix[i][7] !== 1) {
-            const el = this.matrix[i].pop();
-            this.matrix[i].unshift(el);
+        // let j = this.screenSize.cols - 1;
 
-            const a = this.floors[0].pop();
-            this.floors[0].unshift(a);
-        }
+        // if (this.matrix[i][j] !== 1) {
+        //     const el = this.matrix[i].pop();
+        //     this.matrix[i].unshift(el);
 
 
+        // }
+
+        const a = this.floors[0].pop();
+        this.floors[0].unshift(a);
     }
 
     shiftOnceLeft(i) {
 
-        if (this.matrix[i][0] !== 1) {
-            const el = this.matrix[i].shift();
-            this.matrix[i].push(el);
+        // if (this.matrix[i][0] !== 1) {
+        //     const el = this.matrix[i].shift();
+        //     this.matrix[i].push(el);
 
-            const a = this.floors[0].shift();
-            this.floors[0].push(a);
-        }
+        //     const a = this.floors[0].shift();
+        //     this.floors[0].push(a);
+        // }
 
-
+        const a = this.floors[0].shift();
+        this.floors[0].push(a);
     }
 
     roll(i) {
