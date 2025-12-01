@@ -12,8 +12,8 @@ let last = 0;
 let speed = 400;
 
 const screenSize = {
-    rows: 16,
-    cols: 16
+    rows: 8,
+    cols: 8
 }
 
 function animate(ts) {
@@ -34,19 +34,21 @@ function animate(ts) {
             CanvasUtils.drawSquare(j * SIZE, i * SIZE, SIZE);
         }
     }
-    // $score.text(score)
+
+    $score.text(stack2D.score)
 
     stack2D.draw();
+}
+
+
+function init() {
+    stack2D = new Stack2D(screenSize);
+    resizeCanvas();
 }
 
 function resizeCanvas() {
     CanvasUtils.setWidth(screenSize.cols * SIZE);
     CanvasUtils.setHeight(screenSize.rows * SIZE);
-}
-
-function init() {
-    stack2D = new Stack2D(screenSize);
-    resizeCanvas();
 }
 
 $(function () {
